@@ -1,8 +1,8 @@
 <template>
   <div id="coco-ssd">
-    <div id="main" ref="main">
+    <div class="wrapper" ref="main"  :style="{ height: windowHeight + 'px' }">
       <video id="video" ref="video" playsinline></video>
-      <canvas id="output" ref="output" width="1280px" height="720px"/>
+      <canvas id="output" ref="output" v-bind:width="canvasWidth" v-bind:height="canvasHeight"/>
     </div>
   </div>
 </template>
@@ -18,17 +18,11 @@ export default {
       net: {},
       video: {},
       cameras: [],
-      windowHeight: 0
+      windowHeight: 0,
+      canvasWidth: 0,
+      canvasHeight: 0
     }
   },
-  // computed: {
-  //   canvasWidth () {
-  //     return this.$refs.video.clientWidth
-  //   },
-  //   canvasHeight () {
-  //     return this.$refs.video.clientHeight
-  //   }
-  // },
   methods: {
     async loadCocoSsd () {
       this.net = await cocoSsd.load()
@@ -54,10 +48,6 @@ export default {
       video.srcObject = stream
       return new Promise((resolve) => {
         video.onloadedmetadata = () => {
-          // let width = video.videoWidth
-          // let height = video.videoHeight
-          // video.width = width
-          // video.height = height
           resolve(video)
         }
       })
@@ -101,6 +91,8 @@ export default {
       return this.net.detect(this.video)
     },
     drawBbox (predictions, canvas, video) {
+      this.canvasWidth = this.$refs.video.clientWidth
+      this.canvasHeight = this.$refs.video.clientHeight
       const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       const font = '16px sans-serif'
@@ -141,20 +133,27 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#main {
+<style>
+.wrapper {
   position: relative;
-  align-items: center;
+  text-align: center;
+  margin: 0 auto;
   width: 100%,
 }
 #video {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 #output {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 </style>
