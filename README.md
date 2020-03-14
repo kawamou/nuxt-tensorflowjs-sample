@@ -1,5 +1,5 @@
 # nuxt-tensorflowjs-sampler
-![image](https://user-images.githubusercontent.com/18514782/76684024-d7f59e00-664b-11ea-88e7-b70a07287865.png)
+![image](https://user-images.githubusercontent.com/18514782/76684072-39b60800-664c-11ea-94db-4312f7f48be2.png)
 
 ## Build Setup
 
